@@ -1,5 +1,24 @@
-﻿@{
-    ViewData["Title"] = "Karla Brenes";
+﻿@model usuarios;
+
+<h2>Agregar usuario</h2>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
 }
 
-<p>Hola Mundo</p>
+<form asp-action="Submit" method="post">
+    <div>
+        <label>Nombre:</label>
+        <input asp-for="nombre" class="form-control" />
+    </div>
+    <div>
+        <label>Correo:</label>
+        <input asp-for="email" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar nuevo usuario</button>
+</form>
+
+
+ 

@@ -8,9 +8,32 @@ namespace WebAppUsuarios.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private AccesoDatos _acceso  ; 
+        public HomeController(AccesoDatos acceso)
         {
-            _logger = logger;
+            _acceso = acceso;
+        }
+
+        [HttpPost]
+        public IActionResult Submit(usuarios modelo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Index", modelo);
+            }
+            try
+            {
+                _acceso.AgregarUsuario(modelo);
+
+                //si al agregar el usuario es exitoso
+                TempData["SuccessMessage"] = "Tu usuario se guardó con éxito.";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["SuccessMessage"] = "Tu usuario no se guardó."+ex.Message;
+                return View("Index", modelo);
+            }
         }
 
         public IActionResult Index()
